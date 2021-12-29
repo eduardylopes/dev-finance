@@ -1,0 +1,78 @@
+.transaction {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+.trasaction__table {
+    width: 100%;
+    border-spacing: 0 0.5rem;
+    color: #969cb3;
+}
+
+.trasaction__table thead tr th:first-child, 
+.trasaction__table tbody tr td:first-child
+{
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.trasaction__table thead tr th:last-child, 
+.trasaction__table tbody tr td:last-child{
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.trasaction__table thead th {
+    background: white;
+
+    font-weight: normal;
+    padding: 1rem 2rem;
+
+    text-align: left;
+}
+
+.trasaction__table tbody tr {
+    opacity: 0.7
+}
+
+.trasaction__table tbody tr:hover {
+    opacity: 1
+}
+
+.trasaction__table tbody td {
+    background:white;
+    padding: 1rem 2rem;
+}
+
+.trasaction__table td.description {
+    color: var(--dark-blue);
+}
+
+.trasaction__table td.income {
+    color: #12a454;
+}
+
+.trasaction__table td.expense {
+    color: #e92929;
+}
+
+.transaction__button-new {
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.transaction__button-cancel {
+    color: var(--red);
+    border: 2px var(--red) solid;
+    border-radius: 0.25rem;
+
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.6;
+}
+
+.button.cancel:hover {
+    opacity: 1;
+}
