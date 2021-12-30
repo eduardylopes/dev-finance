@@ -6,7 +6,7 @@
 .trasaction__table {
     width: 100%;
     border-spacing: 0 0.5rem;
-    color: #969cb3;
+    color: var(--ligh-gray);
 }
 
 .trasaction__table thead tr th:first-child, 
@@ -21,7 +21,7 @@
 }
 
 .trasaction__table thead th {
-    background: white;
+    background: var(--default-white);
 
     font-weight: normal;
     padding: 1rem 2rem;
@@ -38,7 +38,7 @@
 }
 
 .trasaction__table tbody td {
-    background:white;
+    background:var(--default-white);
     padding: 1rem 2rem;
 }
 
@@ -47,32 +47,22 @@
 }
 
 .transaction__table-income {
-    color: #12a454;
+    color: var(--medium-green);
 }
 
 .transaction__table-expense {
-    color: #e92929;
+    color: var(--red);
+}
+
+.transaction__button-remove {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
 }
 
 .transaction__button-new {
     display: block;
     margin-bottom: 0.75rem;
-}
-
-.transaction__button-cancel {
-    color: var(--red);
-    border: 2px var(--red) solid;
-    border-radius: 0.25rem;
-
-    height: 50px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    opacity: 0.6;
-}
-
-.button.cancel:hover {
-    opacity: 1;
 }

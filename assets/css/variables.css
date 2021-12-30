@@ -1,8 +1,11 @@
 :root {
+    --default-white: #FFF;
     --main-background: #f0f2f5;
     --dark-blue: #363f5f;
+    --ligh-gray: #969cb3;
     --green: #49AA26;
     --light-green: #3dd705;
+    --medium-green: #12a454;
     --dark-green: #2D4A22;
     --red: #e92929;
 }

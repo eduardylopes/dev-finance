@@ -23,7 +23,7 @@
 }
 
 .modal__wrapper {
-    background: #F0F2f5;
+    background: var(--main-background);
     padding: 2.4rem;
 
     position: relative;
@@ -66,4 +66,25 @@ input {
 
 .modal__input.actions .button, .modal__input.actions button {
     width: 48%;
+}
+
+
+.modal__button-save {
+    background: var(--green);
+    color: var(--default-white);
+}
+
+.modal__button-save:hover {
+    background: var(--light-green);
+    opacity: 1;
+}
+
+.modal__button-cancel {
+    background-color: var(--default-white);
+    color: var(--red);
+    border: 2px var(--red) solid;
+}
+
+.modal__button-cancel:hover {
+    opacity: 1;
 }

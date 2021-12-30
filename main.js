@@ -1,4 +1,24 @@
+const newTransactionButton = document.querySelector('[data-button-new]')
+newTransactionButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    Modal.open();
+})
+
+const cancelTransactionButton = document.querySelector('[data-button-cancel]')
+cancelTransactionButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    Modal.close();
+})
+
+const saveTransactionButton = document.querySelector('[data-button-save]')
+saveTransactionButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    Form.submit();
+})
+
+
 const Modal = {
+
     open(){
         document.querySelector('[data-modal-overlay]').classList.add('active')
     },
@@ -8,32 +28,33 @@ const Modal = {
     }
 }
 
-const transactions = [
-    {
-        id: 1,
-        description: 'Luz',
-        amount: -50000,
-        date: '23/01/2021'
-    },
-    {
-        id: 2,
-        description: 'WebSite',
-        amount: 500000,
-        date: '23/01/2021'
-    },
-    {
-        id: 3,
-        description: 'Internet',
-        amount: -20000,
-        date: '23/01/2021'
-    },
-]
-
 const Transaction = {
-    all: transactions,
+    all: [
+        {
+            description: 'Luz',
+            amount: -50000,
+            date: '23/01/2021'
+        },
+        {
+            description: 'WebSite',
+            amount: 500000,
+            date: '23/01/2021'
+        },
+        {
+            description: 'Internet',
+            amount: -20000,
+            date: '23/01/2021'
+        },
+    ],
     
     add(transaction) {
         Transaction.all.push(transaction);
+
+        App.reload();
+    },
+
+    remove(index) {
+        Transaction.all.splice(index, 1)
 
         App.reload();
     },
@@ -65,12 +86,14 @@ const Transaction = {
     }
 }
 
+
 const DOM = {
     transactonsContainer: document.querySelector('[data-table-tbody]'),
 
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
         tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+        tr.dataset.index = index
 
         DOM.transactonsContainer.appendChild(tr)
     },
@@ -85,7 +108,9 @@ const DOM = {
             <td class="${CSSClass}" data-transaction-value>${amount}</td>
             <td class="transaction__table-date">${transaction.date}</td>
             <td>
-                <img src="./assets/images/minus.svg" alt="Remover transação">
+                <button class="transaction__button-remove" data-remove-transaction>
+                    <img src="./assets/images/minus.svg" alt="Remover transação">
+                </button>
             </td>
         `
         return html
@@ -103,7 +128,7 @@ const DOM = {
 
     clearTransactions() {
         DOM.transactonsContainer.innerHTML = ""
-    }
+    },
 }
 
 const Utils = {
@@ -117,18 +142,91 @@ const Utils = {
         })
 
         return signal + value
+    },
+
+    formatAmount(value) {
+        value = Number(value) * 100
+        return value
+    },
+
+    formatDate(value) {
+        const splittedDate = value.split("-")
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
     }
 }
 
+const Form = {
+    description: document.querySelector('[data-input-description]'),
+    amount: document.querySelector('[data-input-amount]'),
+    date: document.querySelector('[data-input-date]'),
+
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value
+        }
+    },
+
+    validadeField() {
+        const { description, amount, date } = Form.getValues()
+
+        if ( description.trim() === "" || amount.trim() === "" || date.trim() === "" ) {
+            throw new Error('Por favor, preencha todos os campos');
+        }
+    },
+
+    formatValues() {
+        let { description, amount, date } = Form.getValues()
+
+        amount = Utils.formatAmount(amount);
+
+        date = Utils.formatDate(date);
+
+        return {
+            description,
+            amount,
+            date,
+        }
+    },
+
+    saveTransaction(transaction) {
+
+        Transaction.add(transaction)
+    },
+
+    clearFields() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
+    },
+
+    submit() {
+
+        try {
+            Form.validadeField()
+            const transaction = Form.formatValues()
+            saveTransaction = Form.saveTransaction(transaction)
+            Form.clearFields()
+            Modal.close()
+
+        } catch (error) {
+            alert(error.message)
+        }
+
+    }
+}
 
 const App = {
     init(){
         
-        Transaction.all.forEach(transaction => {
-            DOM.addTransaction(transaction)
+        Transaction.all.forEach((transaction, index) => {
+            DOM.addTransaction(transaction, index)
         })
-        
+
         DOM.updateBalance();
+
+        DOM.removeTransactionButton = document.querySelectorAll('[data-remove-transaction]')
     },
 
     reload(){
@@ -139,9 +237,17 @@ const App = {
 
 App.init();
 
-Transaction.add({
-    id: 39,
-    description: 'Alo',
-    amount: 200000,
-    date: '23/01/2021'
+
+let removeTransactionButton = document.querySelectorAll('[data-remove-transaction]')
+
+removeTransactionButton.forEach(button => {
+    button.addEventListener('click', e => {
+
+        e.preventDefault();
+
+        console.log(e.target);
+
+        const index = button.parentElement.parentElement.getAttribute('data-index');
+
+    })
 })
