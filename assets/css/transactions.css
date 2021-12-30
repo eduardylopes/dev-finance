@@ -46,11 +46,11 @@
     color: var(--dark-blue);
 }
 
-.trasaction__table td.income {
+.transaction__table-income {
     color: #12a454;
 }
 
-.trasaction__table td.expense {
+.transaction__table-expense {
     color: #e92929;
 }
 

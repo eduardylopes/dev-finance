@@ -33,7 +33,7 @@
     margin-top: 1rem;
 }
 
-.card.total {
+.balance__card.total {
     background: var(--green);
     color: white;
 }
