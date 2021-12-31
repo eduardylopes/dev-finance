@@ -1,21 +1,38 @@
-const newTransactionButton = document.querySelector('[data-button-new]')
-newTransactionButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    Modal.open();
-})
+const Button = {
+    newTransactionButton() {
+        const newTransactionButton = document.querySelector('[data-button-new]')
+        newTransactionButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            Modal.open();
+        })
+    },
 
-const cancelTransactionButton = document.querySelector('[data-button-cancel]')
-cancelTransactionButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    Modal.close();
-})
+    cancelTransactionButton() {
+        const cancelTransactionButton = document.querySelector('[data-button-cancel]')
+        cancelTransactionButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            Modal.close();
+        })
+    },
 
-const saveTransactionButton = document.querySelector('[data-button-save]')
-saveTransactionButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    Form.submit();
-})
+    saveTransactionButton() {
+        const saveTransactionButton = document.querySelector('[data-button-save]')
+        saveTransactionButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            Form.submit();
+        })
+    },
 
+    removeTransactionButton() {
+        const removeTransactionButton = document.querySelectorAll('[data-remove-transaction]');
+        removeTransactionButton.forEach(button => {
+            button.addEventListener('click', () => {
+                const index = button.parentElement.parentElement.getAttribute('data-index')
+                Transaction.remove(index);
+            })
+        })
+    }
+}
 
 const Modal = {
 
@@ -28,28 +45,21 @@ const Modal = {
     }
 }
 
+const Storage = {
+    get(){
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+    },
+    set(transactions){
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+    },
+}
+
 const Transaction = {
-    all: [
-        {
-            description: 'Luz',
-            amount: -50000,
-            date: '23/01/2021'
-        },
-        {
-            description: 'WebSite',
-            amount: 500000,
-            date: '23/01/2021'
-        },
-        {
-            description: 'Internet',
-            amount: -20000,
-            date: '23/01/2021'
-        },
-    ],
+    all: Storage.get(),
     
     add(transaction) {
         Transaction.all.push(transaction);
-
+        
         App.reload();
     },
 
@@ -85,7 +95,6 @@ const Transaction = {
         return Transaction.incomes() + Transaction.expenses()
     }
 }
-
 
 const DOM = {
     transactonsContainer: document.querySelector('[data-table-tbody]'),
@@ -128,7 +137,7 @@ const DOM = {
 
     clearTransactions() {
         DOM.transactonsContainer.innerHTML = ""
-    },
+    }
 }
 
 const Utils = {
@@ -191,7 +200,6 @@ const Form = {
     },
 
     saveTransaction(transaction) {
-
         Transaction.add(transaction)
     },
 
@@ -219,16 +227,17 @@ const Form = {
 
 const App = {
     init(){
-        
         Transaction.all.forEach((transaction, index) => {
             DOM.addTransaction(transaction, index)
         })
 
         DOM.updateBalance();
 
-        DOM.removeTransactionButton = document.querySelectorAll('[data-remove-transaction]')
-    },
+        Storage.set(Transaction.all)
 
+        Button.removeTransactionButton();
+    },
+    
     reload(){
         DOM.clearTransactions();
         App.init();
@@ -237,17 +246,6 @@ const App = {
 
 App.init();
 
-
-let removeTransactionButton = document.querySelectorAll('[data-remove-transaction]')
-
-removeTransactionButton.forEach(button => {
-    button.addEventListener('click', e => {
-
-        e.preventDefault();
-
-        console.log(e.target);
-
-        const index = button.parentElement.parentElement.getAttribute('data-index');
-
-    })
-})
+Button.newTransactionButton();
+Button.cancelTransactionButton();
+Button.saveTransactionButton();
