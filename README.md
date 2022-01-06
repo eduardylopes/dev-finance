@@ -8,4 +8,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## Projeto
 
-O dev.finances é uma aplicação de controle financeiro criada durante a maratona discovery da Rocket Seat.
+O dev.finances é uma aplicação de controle financeiro criada durante a maratona Discover da Rocket Seat.
+
+### Links
+
+- Site hospedado: [dev-finance](https://eduardylopes.github.io/dev-finance/)
